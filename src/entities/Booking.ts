@@ -102,3 +102,5 @@ export class Booking {
   @OneToMany(() => Invoice, (invoice) => invoice.booking)
   invoices: Invoice[];
 }
+
+

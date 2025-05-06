@@ -2,10 +2,13 @@ import {
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Booking } from "./Booking";
+import { Destinations } from "./Destinations";
 
 @Index("catering_pkey", ["id"], { unique: true })
 @Entity("catering", { schema: "public" })
@@ -41,6 +44,16 @@ export class Catering {
 
   @Column("character varying", { name: "pics", nullable: true })
   pics: string | null;
+
+  @Column("text", { name: "description", nullable: true })
+  description: string | null;
+
+  @Column("int", { name: "destination_id", nullable: true })
+  destinationId: number | null;
+
+  @ManyToOne(() => Destinations, (destination) => destination.caterings)
+  @JoinColumn({ name: "destination_id" })
+  destination: Destinations;
 
   @OneToMany(() => Booking, (booking) => booking.catering)
   bookings: Booking[];

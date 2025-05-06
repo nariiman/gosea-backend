@@ -53,4 +53,8 @@ export class ClientProfile {
 
   @OneToMany(() => Feedback, (feedback) => feedback.client)
   feedbacks: Feedback[];
+
+  @Column("character varying", { name: "password", length: 255 })
+  password: string;
+
 }

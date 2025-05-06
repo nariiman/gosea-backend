@@ -1,19 +1,33 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Activity } from './Activity';
+import { Yacht } from './Yacht';
+import { Catering } from './Catering';
 
-@Entity("destinations", { schema: "public" })
+
+@Entity('destinations', { schema: 'public' })
 export class Destinations {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("character varying", { name: "name" })
+  @Column('character varying', { name: 'name', nullable: false })
   name: string;
 
-  @Column("character varying", { name: "description", nullable: true })
+  @Column('character varying', { name: 'description', nullable: true })
   description: string | null;
 
-  @Column("character varying", { name: "imageUrl", nullable: true })
+  @Column('character varying', { name: 'imageUrl', nullable: true })
   imageUrl: string | null;
 
-  @Column("boolean", { name: "isActive", default: () => "true" })
+  @Column('boolean', { name: 'isActive', default: () => 'true' })
   isActive: boolean;
+
+  @OneToMany(() => Activity, (activity) => activity.destination)
+  activities: Activity[];
+
+  @OneToMany(() => Yacht, (yacht) => yacht.destination)
+yachts: Yacht[];
+
+@OneToMany(() => Catering, (catering) => catering.destination)
+caterings: Catering[];
+
 }

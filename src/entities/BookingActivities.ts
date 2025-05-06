@@ -8,6 +8,9 @@ import {
 } from "typeorm";
 import { Activity } from "./Activity";
 import { Booking } from "./Booking";
+// import { Booking } from './Booking';
+
+
 
 @Index("booking_activities_pkey", ["id"], { unique: true })
 @Entity("booking_activities", { schema: "public" })
@@ -44,9 +47,11 @@ export class BookingActivities {
   @JoinColumn([{ name: "activity_id", referencedColumnName: "id" }])
   activity: Activity;
 
-  @ManyToOne(() => Booking, (booking) => booking.bookingActivities, {
-    onDelete: "CASCADE",
-  })
-  @JoinColumn([{ name: "booking_id", referencedColumnName: "id" }])
+  
+
+  @ManyToOne(() => Booking, (booking) => booking.bookingActivities)
+  @JoinColumn([{ name: 'booking_id', referencedColumnName: 'id' }]) 
   booking: Booking;
+
 }
+
