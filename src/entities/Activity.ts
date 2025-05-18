@@ -26,15 +26,16 @@ export class Activity {
   })
   activityType: string | null;
 
-  // @Column('character varying', {
-  //   name: 'currency',
-  //   nullable: true,
-  //   length: 100,
-  // })
-  // currency: string;
-
-  @Column('numeric', { name: 'price_per_hour', precision: 10, scale: 2 })
-  pricePerHour: string;
+  @Column('numeric', { 
+    name: 'price_per_hour', 
+    precision: 10, 
+    scale: 2, 
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    }
+  })
+  pricePerHour: number;
 
   @Column('timestamp without time zone', {
     name: 'created_at',
@@ -68,6 +69,4 @@ export class Activity {
 
   @OneToMany(() => BookingActivities, (booking) => booking.activity)
   bookingActivities: BookingActivities[];
-
-  
 }

@@ -69,6 +69,27 @@ export class Yacht {
   })
   durations: string | null;
 
+  @Column("text", {
+    name: "gallery",
+    nullable: true,
+  })
+  gallery: string | null; // JSON string of array of image paths
+
+  @Column("integer", {
+    name: "guest_capacity",
+    nullable: true,
+    default: () => "1",
+  })
+  guestCapacity: number | null;
+  
+  @Column("integer", {
+    name: "beds",
+    nullable: true,
+    default: () => "1",
+  })
+  beds: number | null;
+  
+
   @OneToMany(() => Booking, (booking) => booking.yacht)
   bookings: Booking[];
 }

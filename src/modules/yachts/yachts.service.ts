@@ -14,9 +14,23 @@ export class YachtsService {
     return this.yachtRepo.find();
   }
 
-  findByDestination(destinationId: number) {
-    return this.yachtRepo.find({
+  async findByDestination(destinationId: number) {
+    const yachts = await this.yachtRepo.find({
       where: { destinationId },
     });
-  }
+  
+    return yachts.map((yacht) => ({
+      id: yacht.id,
+      name: yacht.name,
+      yachtType: yacht.yachtType,
+      pricePerHour: yacht.pricePerHour,
+      pics: yacht.pics,
+      destinationId: yacht.destinationId,
+      durationUnit: yacht.durationUnit,
+      durations: yacht.durations,
+      gallery: yacht.gallery,
+      guest_capacity: yacht.guestCapacity,
+      beds: yacht.beds,
+    }));
+  }  
 }

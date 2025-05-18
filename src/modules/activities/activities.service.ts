@@ -24,4 +24,15 @@ export class ActivitiesService {
       throw error;
     }
   }
+  async getTypesByDestination(destinationId: number): Promise<string[]> {
+  const rawTypes = await this.activityRepo
+    .createQueryBuilder('activity')
+    .select('DISTINCT activity.activity_type', 'type')
+    .where('activity.destination_id = :destinationId', { destinationId })
+    .andWhere('activity.activity_type IS NOT NULL')
+    .getRawMany();
+
+  return rawTypes.map((r) => r.type);
+}
+
 }

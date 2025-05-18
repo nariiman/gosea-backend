@@ -19,4 +19,12 @@ export class ActivitiesController {
   getByDestination(@Param('id', ParseIntPipe) id: number) {
     return this.activitiesService.findByDestination(id);
   }
+
+  // GET /activities/types/:destinationId
+@Get('types/:destinationId')
+getTypesByDestination(@Param('destinationId', ParseIntPipe) destinationId: number) {
+  return this.activitiesService.getTypesByDestination(destinationId);
+}
+
+
 }
