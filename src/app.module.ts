@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'; 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DestinationsModule } from './modules/destinations/destinations.module';
 import { YachtsModule } from './modules/yachts/yachts.module';
@@ -18,6 +18,7 @@ import { TransportCompany } from './entities/TransportCompany';
 import { TransportRequest } from './entities/TransportRequest';
 import { VisaPayment } from './entities/VisaPayment';
 import { CashPayment } from './entities/CashPayment';
+import { Destinations } from './entities/Destinations'; // ✅ required for TypeOrmModule.forFeature in DestinationsController
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { CashPayment } from './entities/CashPayment';
         TransportRequest,
         VisaPayment,
         CashPayment,
+        Destinations, // ✅ ensure entity is loaded
       ],
     }),
     DestinationsModule,

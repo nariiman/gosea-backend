@@ -8,7 +8,5 @@ import { Activity } from 'src/entities/Activity'; // make sure the path and casi
   imports: [TypeOrmModule.forFeature([Activity])],
   controllers: [ActivitiesController],
   providers: [ActivitiesService],
-  
 })
-
 export class ActivitiesModule {}

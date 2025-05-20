@@ -26,14 +26,14 @@ export class Activity {
   })
   activityType: string | null;
 
-  @Column('numeric', { 
-    name: 'price_per_hour', 
-    precision: 10, 
-    scale: 2, 
+  @Column('numeric', {
+    name: 'price_per_hour',
+    precision: 10,
+    scale: 2,
     transformer: {
       to: (value: number) => value,
       from: (value: string) => parseFloat(value),
-    }
+    },
   })
   pricePerHour: number;
 
@@ -59,6 +59,24 @@ export class Activity {
 
   @Column('integer', { name: 'destination_id', nullable: true })
   destinationId: number | null;
+
+  @Column({ name: 'min_age', type: 'integer', nullable: true })
+  minAge: number;
+
+  @Column({ name: 'rating', type: 'numeric', precision: 2, scale: 1, default: 4.8 })
+  rating: number;
+
+  @Column({ name: 'review_count', type: 'integer', default: 100 })
+  reviewCount: number;
+
+  @Column({ name: 'duration_options', type: 'text', array: true, nullable: true })
+  durationOptions: string[];
+
+  @Column({ name: 'duration_unit', type: 'integer', default: 15 })
+  durationUnit: number;
+
+  @Column({ name: 'description', type: 'text', nullable: true })
+  description: string;
 
   @ManyToOne(() => Destinations, (destination) => destination.activities, {
     nullable: true,
