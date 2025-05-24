@@ -12,7 +12,6 @@ import { ClientProfile } from './entities/ClientProfile';
 import { ClientPhones } from './entities/ClientPhones';
 import { Feedback } from './entities/Feedback';
 import { Invoice } from './entities/Invoice';
-import { Migrations } from './entities/Migrations';
 import { Payment } from './entities/Payment';
 import { TransportCompany } from './entities/TransportCompany';
 import { TransportRequest } from './entities/TransportRequest';
@@ -24,10 +23,10 @@ import { Destinations } from './entities/Destinations'; // ✅ required for Type
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'aws-0-eu-central-1.pooler.supabase.com',
       port: 5432,
-      username: 'postgres',
-      password: 'password',
+      username: 'postgres.dckbfpapqkabfssicehs',
+      password: 'reservations_postgres',
       database: 'postgres',
       autoLoadEntities: true,
       synchronize: false,
@@ -40,7 +39,6 @@ import { Destinations } from './entities/Destinations'; // ✅ required for Type
         ClientPhones,
         Feedback,
         Invoice,
-        Migrations,
         Payment,
         TransportCompany,
         TransportRequest,
