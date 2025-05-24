@@ -4,45 +4,45 @@ import {
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Booking } from "./Booking";
-import { ClientPhones } from "./ClientPhones";
-import { Feedback } from "./Feedback";
+} from 'typeorm';
+import { Booking } from './Booking';
+import { ClientPhones } from './ClientPhones';
+import { Feedback } from './Feedback';
 
-@Index("client_profile_email_key", ["email"], { unique: true })
-@Index("client_profile_pkey", ["id"], { unique: true })
-@Entity("client_profile", { schema: "public" })
+@Index('client_profile_email_key', ['email'], { unique: true })
+@Index('client_profile_pkey', ['id'], { unique: true })
+@Entity('client_profile', { schema: 'public' })
 export class ClientProfile {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column("character varying", { name: "first_name", length: 100 })
+  @Column('character varying', { name: 'first_name', length: 100 })
   firstName: string;
 
-  @Column("character varying", { name: "last_name", length: 100 })
+  @Column('character varying', { name: 'last_name', length: 100 })
   lastName: string;
 
-  @Column("text", { name: "address", nullable: true })
+  @Column('text', { name: 'address', nullable: true })
   address: string | null;
 
-  @Column("character varying", { name: "email", unique: true, length: 255 })
+  @Column('character varying', { name: 'email', unique: true, length: 255 })
   email: string;
 
-  @Column("timestamp without time zone", {
-    name: "created_at",
+  @Column('timestamp without time zone', {
+    name: 'created_at',
     nullable: true,
-    default: () => "now()",
+    default: () => 'now()',
   })
   createdAt: Date | null;
 
-  @Column("timestamp without time zone", {
-    name: "updated_at",
+  @Column('timestamp without time zone', {
+    name: 'updated_at',
     nullable: true,
-    default: () => "now()",
+    default: () => 'now()',
   })
   updatedAt: Date | null;
 
-  @Column("timestamp without time zone", { name: "deleted_at", nullable: true })
+  @Column('timestamp without time zone', { name: 'deleted_at', nullable: true })
   deletedAt: Date | null;
 
   @OneToMany(() => Booking, (booking) => booking.client)
@@ -54,7 +54,6 @@ export class ClientProfile {
   @OneToMany(() => Feedback, (feedback) => feedback.client)
   feedbacks: Feedback[];
 
-  @Column("character varying", { name: "password", length: 255 })
+  @Column('character varying', { name: 'password', length: 255 })
   password: string;
-
 }

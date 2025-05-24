@@ -12,7 +12,11 @@ export class AvailableTimesService {
     private bookingRepo: Repository<Booking>,
   ) {}
 
-  async findAvailableTimes(yachtId: number, date: string, duration: number): Promise<string[]> {
+  async findAvailableTimes(
+    yachtId: number,
+    date: string,
+    duration: number,
+  ): Promise<string[]> {
     const startOfDay = dayjs(date).startOf('day');
     const allSlots = this.generateSlots(8, 22, duration); // from 8:00 to 22:00
 
@@ -25,7 +29,10 @@ export class AvailableTimesService {
     });
 
     const unavailable = bookings.map((b) =>
-      dayjs(`${b.reservationDate.toISOString().split('T')[0]} ${b.reservationTime}`, 'YYYY-MM-DD HH:mm')
+      dayjs(
+        `${b.reservationDate.toISOString().split('T')[0]} ${b.reservationTime}`,
+        'YYYY-MM-DD HH:mm',
+      ),
     );
 
     const available = allSlots.filter((slot) => {

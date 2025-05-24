@@ -14,7 +14,13 @@ export class AuthService {
   ) {}
 
   // ✅ Sign Up → Hash password and save user
-  async signUp(data: { firstName: string; lastName: string; email: string; password: string; address?: string }) {
+  async signUp(data: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    address?: string;
+  }) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const user = this.clientRepo.create({

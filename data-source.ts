@@ -39,7 +39,7 @@ export const AppDataSource = new DataSource({
     TransportRequest,
     VisaPayment,
     CashPayment,
-    Yacht
+    Yacht,
   ],
   migrations: ['src/migrations/*.ts'],
   synchronize: false,

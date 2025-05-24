@@ -3,7 +3,6 @@ import { Activity } from './Activity';
 import { Yacht } from './Yacht';
 import { Catering } from './Catering';
 
-
 @Entity('destinations', { schema: 'public' })
 export class Destinations {
   @PrimaryGeneratedColumn()
@@ -25,9 +24,8 @@ export class Destinations {
   activities: Activity[];
 
   @OneToMany(() => Yacht, (yacht) => yacht.destination)
-yachts: Yacht[];
+  yachts: Yacht[];
 
-@OneToMany(() => Catering, (catering) => catering.destination)
-caterings: Catering[];
-
+  @OneToMany(() => Catering, (catering) => catering.destination)
+  caterings: Catering[];
 }

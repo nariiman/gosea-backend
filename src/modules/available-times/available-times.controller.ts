@@ -8,8 +8,12 @@ export class AvailableTimesController {
   getAvailableTimes(
     @Query('yachtId') yachtId: number,
     @Query('date') date: string,
-    @Query('duration') duration: number
+    @Query('duration') duration: number,
   ) {
-    return this.availableTimesService.findAvailableTimes(yachtId, date, duration);
+    return this.availableTimesService.findAvailableTimes(
+      yachtId,
+      date,
+      duration,
+    );
   }
 }

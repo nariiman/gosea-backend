@@ -63,13 +63,24 @@ export class Activity {
   @Column({ name: 'min_age', type: 'integer', nullable: true })
   minAge: number;
 
-  @Column({ name: 'rating', type: 'numeric', precision: 2, scale: 1, default: 4.8 })
+  @Column({
+    name: 'rating',
+    type: 'numeric',
+    precision: 2,
+    scale: 1,
+    default: 4.8,
+  })
   rating: number;
 
   @Column({ name: 'review_count', type: 'integer', default: 100 })
   reviewCount: number;
 
-  @Column({ name: 'duration_options', type: 'text', array: true, nullable: true })
+  @Column({
+    name: 'duration_options',
+    type: 'text',
+    array: true,
+    nullable: true,
+  })
   durationOptions: string[];
 
   @Column({ name: 'duration_unit', type: 'integer', default: 15 })

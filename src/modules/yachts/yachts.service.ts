@@ -18,7 +18,7 @@ export class YachtsService {
     const yachts = await this.yachtRepo.find({
       where: { destinationId },
     });
-  
+
     return yachts.map((yacht) => ({
       id: yacht.id,
       name: yacht.name,
@@ -32,5 +32,5 @@ export class YachtsService {
       guest_capacity: yacht.guestCapacity,
       beds: yacht.beds,
     }));
-  }  
+  }
 }

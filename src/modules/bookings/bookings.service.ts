@@ -12,11 +12,14 @@ import { BookingActivities } from 'src/entities/BookingActivities';
 export class BookingsService {
   constructor(
     @InjectRepository(Booking) private bookingRepo: Repository<Booking>,
-    @InjectRepository(TransportRequest) private transportRepo: Repository<TransportRequest>,
-    @InjectRepository(ClientProfile) private clientRepo: Repository<ClientProfile>,
+    @InjectRepository(TransportRequest)
+    private transportRepo: Repository<TransportRequest>,
+    @InjectRepository(ClientProfile)
+    private clientRepo: Repository<ClientProfile>,
     @InjectRepository(Yacht) private yachtRepo: Repository<Yacht>,
     @InjectRepository(Catering) private cateringRepo: Repository<Catering>,
-    @InjectRepository(BookingActivities) private bookingActivitiesRepo: Repository<BookingActivities>,
+    @InjectRepository(BookingActivities)
+    private bookingActivitiesRepo: Repository<BookingActivities>,
   ) {}
 
   // ✅ Create booking
@@ -28,10 +31,10 @@ export class BookingsService {
       numberOfPeople: dto.numberOfPeople,
       bookingPrice: dto.totalPrice,
       paymentType: dto.paymentType,
-      bookingStatus: "pending",
+      bookingStatus: 'pending',
       client: { id: clientId } as any,
-      yacht: dto.yachtId ? { id: dto.yachtId } as any : null,
-      catering: dto.cateringId ? { id: dto.cateringId } as any : null,
+      yacht: dto.yachtId ? ({ id: dto.yachtId } as any) : null,
+      catering: dto.cateringId ? ({ id: dto.cateringId } as any) : null,
     });
 
     const savedBooking = await this.bookingRepo.save(booking);
@@ -44,7 +47,7 @@ export class BookingsService {
           activity: { id: activityId } as any,
           startTime: dto.reservationTime,
           endTime: dto.reservationTime,
-        })
+        }),
       );
 
       await this.bookingActivitiesRepo.save(activities);
@@ -67,7 +70,12 @@ export class BookingsService {
   async getClientBookings(clientId: number) {
     return this.bookingRepo.find({
       where: { client: { id: clientId } },
-      relations: ['yacht', 'catering', 'bookingActivities', 'bookingActivities.activity'],
+      relations: [
+        'yacht',
+        'catering',
+        'bookingActivities',
+        'bookingActivities.activity',
+      ],
       order: { reservationDate: 'DESC' },
     });
   }

@@ -15,4 +15,3 @@ export class CateringController {
     return this.cateringService.findByDestination(+id);
   }
 }
-

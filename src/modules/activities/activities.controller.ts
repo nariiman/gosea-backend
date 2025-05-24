@@ -20,7 +20,9 @@ export class ActivitiesController {
 
   // ✅ GET /activities/types/:destinationId
   @Get('types/:destinationId')
-  getTypesByDestination(@Param('destinationId', ParseIntPipe) destinationId: number) {
+  getTypesByDestination(
+    @Param('destinationId', ParseIntPipe) destinationId: number,
+  ) {
     return this.activitiesService.getTypesByDestination(destinationId);
   }
 
@@ -37,7 +39,8 @@ export class ActivitiesController {
   @Get(':id')
   async getOne(@Param('id', ParseIntPipe) id: number) {
     const activity = await this.activitiesService.findById(id);
-    if (!activity) throw new NotFoundException(`Activity with ID ${id} not found`);
+    if (!activity)
+      throw new NotFoundException(`Activity with ID ${id} not found`);
     return activity;
   }
 }
