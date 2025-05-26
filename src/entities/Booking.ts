@@ -7,27 +7,27 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Catering } from './Catering';
 import { ClientProfile } from './ClientProfile';
 import { Yacht } from './Yacht';
 import { BookingActivities } from './BookingActivities';
 import { Feedback } from './Feedback';
 import { Invoice } from './Invoice';
 import { TransportRequest } from './TransportRequest';
+import { BookingCateringMenu } from 'src/entities/BookingCateringMenu';
 
 @Index('booking_pkey', ['id'], { unique: true })
-@Entity('booking', { schema: 'public' })
+@Entity('booking')
 export class Booking {
-  @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
+  @PrimaryGeneratedColumn({ type: 'integer' })
   id: number;
 
-  @Column('timestamp without time zone', { name: 'booking_date' })
+  @Column('timestamp', { name: 'booking_date' })
   bookingDate: Date;
 
-  @Column('timestamp without time zone', { name: 'reservation_date' })
+  @Column('timestamp', { name: 'reservation_date' })
   reservationDate: Date;
 
-  @Column('time without time zone', { name: 'reservation_time' })
+  @Column('time', { name: 'reservation_time' })
   reservationTime: string;
 
   @Column('integer', { name: 'number_of_people' })
@@ -36,82 +36,43 @@ export class Booking {
   @Column('numeric', { name: 'booking_price', precision: 10, scale: 2 })
   bookingPrice: string;
 
-  @Column('numeric', {
-    name: 'discount',
-    nullable: true,
-    precision: 10,
-    scale: 2,
-    default: () => '0.00',
-  })
-  discount: string | null;
-
-  @Column('character varying', {
-    name: 'payment_type',
-    nullable: true,
-    length: 50,
-  })
-  paymentType: string | null;
-
   @Column('character varying', {
     name: 'booking_status',
-    nullable: true,
     length: 50,
     default: () => "'pending'",
   })
-  bookingStatus: string | null;
+  bookingStatus: string;
 
   @Column('integer', { name: 'transportation_request_id', nullable: true })
   transportationRequestId: number | null;
 
-  @Column('timestamp without time zone', {
-    name: 'created_at',
-    nullable: true,
-    default: () => 'now()',
-  })
-  createdAt: Date | null;
-
-  @Column('timestamp without time zone', {
-    name: 'updated_at',
-    nullable: true,
-    default: () => 'now()',
-  })
-  updatedAt: Date | null;
-
-  @Column('timestamp without time zone', { name: 'deleted_at', nullable: true })
-  deletedAt: Date | null;
-
-  @ManyToOne(() => Catering, (catering) => catering.bookings)
-  @JoinColumn([{ name: 'catering_id', referencedColumnName: 'id' }])
-  catering: Catering;
-
-  @ManyToOne(() => ClientProfile, (clientProfile) => clientProfile.bookings, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'client_id', referencedColumnName: 'id' }])
-  client: ClientProfile;
+  @Column('uuid', { name: 'user_uid' })
+  userUid: string;
 
   @ManyToOne(() => Yacht, (yacht) => yacht.bookings)
-  @JoinColumn([{ name: 'yacht_id', referencedColumnName: 'id' }])
+  @JoinColumn({ name: 'yacht_id' })
   yacht: Yacht;
 
-  @OneToMany(
-    () => BookingActivities,
-    (bookingActivities) => bookingActivities.booking,
-  )
+  @ManyToOne(() => ClientProfile, (client) => client.bookings, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'client_id' })
+  client: ClientProfile;
+
+  @OneToMany(() => BookingActivities, (ba) => ba.booking)
   bookingActivities: BookingActivities[];
 
-  @OneToMany(() => Feedback, (feedback) => feedback.booking)
+  @OneToMany(() => Feedback, (fb) => fb.booking)
   feedbacks: Feedback[];
 
-  @OneToMany(() => Invoice, (invoice) => invoice.booking)
+  @OneToMany(() => Invoice, (inv) => inv.booking)
   invoices: Invoice[];
 
-  @Column('uuid', { name: 'user_uid', nullable: true })
-  userUid: string | null;
-
-  @OneToMany(
-    () => TransportRequest,
-    (transportRequest) => transportRequest.booking,
-  )
+  @OneToMany(() => TransportRequest, (tr) => tr.booking)
   transportRequests: TransportRequest[];
+
+  @OneToMany(() => BookingCateringMenu, (bcm) => bcm.booking, {
+    cascade: true,
+  })
+  bookingCateringMenus: BookingCateringMenu[];
 }

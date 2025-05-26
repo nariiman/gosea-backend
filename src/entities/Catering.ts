@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Booking } from './Booking';
 import { Destinations } from './Destinations';
+import { BookingCateringMenu } from 'src/entities/BookingCateringMenu';
 
 @Index('catering_pkey', ['id'], { unique: true })
 @Entity('catering', { schema: 'public' })
@@ -55,6 +56,6 @@ export class Catering {
   @JoinColumn({ name: 'destination_id' })
   destination: Destinations;
 
-  @OneToMany(() => Booking, (booking) => booking.catering)
+  @OneToMany(() => BookingCateringMenu, (booking) => booking.catering)
   bookings: Booking[];
 }

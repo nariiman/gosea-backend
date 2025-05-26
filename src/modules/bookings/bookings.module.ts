@@ -9,6 +9,7 @@ import { ClientProfile } from '../../entities/ClientProfile';
 
 import { BookingsService } from './bookings.service';
 import { BookingsController } from './bookings.controller';
+import { BookingCateringMenu } from 'src/entities/BookingCateringMenu';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { BookingsController } from './bookings.controller';
       Catering,
       Yacht,
       ClientProfile,
+      BookingCateringMenu,
     ]),
   ],
   controllers: [BookingsController],

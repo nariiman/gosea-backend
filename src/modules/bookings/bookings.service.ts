@@ -6,6 +6,8 @@ import { TransportRequest } from '../../entities/TransportRequest';
 import { CreateActivityBookingDto } from './dtos/request/create-activity-booking.dto';
 import { CreateYachtBookingDto } from './dtos/request/create-yacht-booking.dto';
 import { Repository } from 'typeorm';
+import { Catering } from 'src/entities/Catering';
+import { BookingCateringMenu } from 'src/entities/BookingCateringMenu';
 
 @Injectable()
 export class BookingsService {
@@ -15,6 +17,10 @@ export class BookingsService {
   private readonly transportRepo: Repository<TransportRequest>;
   @InjectRepository(BookingActivities)
   private readonly bookingActivitiesRepo: Repository<BookingActivities>;
+  @InjectRepository(Catering)
+  private readonly cateringRepo: Repository<Catering>;
+  @InjectRepository(BookingCateringMenu)
+  private readonly bookingCateringMenuRepo: Repository<BookingCateringMenu>;
 
   async getBookingById(id: number) {
     return this.bookingRepo.findOne({
@@ -34,7 +40,8 @@ export class BookingsService {
       where: { userUid: uid },
       relations: [
         'yacht',
-        'catering',
+        'bookingCateringMenus',
+        'bookingCateringMenus.catering',
         'bookingActivities',
         'transportRequests',
         'transportRequests.company',
@@ -42,38 +49,57 @@ export class BookingsService {
     });
   }
 
-  async bookYacht(dto: CreateYachtBookingDto) {
+  async bookYacht(
+    dto: CreateYachtBookingDto,
+  ): Promise<{ message: string; bookingId: number }> {
     const booking = await this.bookingRepo.save({
-      ...dto,
-      bookingDate: new Date(),
-      transportationRequestId: null,
+      bookingType: dto.bookingType,
+      bookingDate: dto.bookingDate,
+      reservationDate: dto.reservationDate,
+      reservationTime: dto.reservationTime,
+      bookingPrice: dto.bookingPrice.toString(),
+      numberOfPeople: dto.numberOfPeople,
+      userUid: dto.userUid,
+      yacht: { id: dto.yachtId },
     });
 
-    // Step 2: Save transport and attach booking if provided
     if (dto.transportationRequest) {
-      const savedTransport = await this.transportRepo.save({
+      const transport = await this.transportRepo.save({
         ...dto.transportationRequest,
         status: 'Pending',
-        bookingId: booking.id,
+        booking,
       });
 
       await this.bookingRepo.update(booking.id, {
-        transportationRequestId: savedTransport.id,
+        transportationRequestId: transport.id,
       });
     }
 
-    // Step 3: Save linked activities
     if (dto.activities?.length) {
-      const activityLinks = dto.activities.map((id) => ({
-        booking,
-        activity: { id },
-        startTime: '00:00',
-        endTime: '00:00',
-      }));
+      await Promise.all(
+        dto.activities.map((id) =>
+          this.bookingActivitiesRepo.save({
+            booking,
+            activity: { id },
+            startTime: '00:00',
+            endTime: '00:00',
+          }),
+        ),
+      );
+    }
 
-      activityLinks.forEach(async (activity) => {
-        await this.bookingActivitiesRepo.save(activity);
-      });
+    if (dto.catering?.menus?.length) {
+      const menus = await this.cateringRepo.findByIds(dto.catering.menus);
+
+      await this.bookingCateringMenuRepo.save(
+        menus.map((menu) => ({
+          booking,
+          catering: menu,
+          guests: dto.numberOfPeople,
+          notes: dto.catering?.notes ?? undefined,
+          totalPrice: dto.catering?.total ?? undefined,
+        })),
+      );
     }
 
     return { message: 'Yacht booking confirmed', bookingId: booking.id };
