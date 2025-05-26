@@ -9,18 +9,36 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class BookingsService {
-  constructor(
-    @InjectRepository(Booking) private bookingRepo: Repository<Booking>,
-    @InjectRepository(TransportRequest)
-    private transportRepo: Repository<TransportRequest>,
-    @InjectRepository(BookingActivities)
-    private bookingActivitiesRepo: Repository<BookingActivities>,
-  ) {}
+  @InjectRepository(Booking)
+  private readonly bookingRepo: Repository<Booking>;
+  @InjectRepository(TransportRequest)
+  private readonly transportRepo: Repository<TransportRequest>;
+  @InjectRepository(BookingActivities)
+  private readonly bookingActivitiesRepo: Repository<BookingActivities>;
+
+  async getBookingById(id: number) {
+    return this.bookingRepo.findOne({
+      where: { id },
+      relations: [
+        'yacht',
+        'catering',
+        'bookingActivities',
+        'transportRequests',
+        'transportRequests.company',
+      ],
+    });
+  }
 
   async getUserBookings(uid: string) {
     return this.bookingRepo.find({
       where: { userUid: uid },
-      relations: ['transportRequests', 'transportRequests.transportation'],
+      relations: [
+        'yacht',
+        'catering',
+        'bookingActivities',
+        'transportRequests',
+        'transportRequests.company',
+      ],
     });
   }
 

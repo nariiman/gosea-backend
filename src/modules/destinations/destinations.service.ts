@@ -13,4 +13,8 @@ export class DestinationsService {
   getAllDestinations(): Promise<Destinations[]> {
     return this.destinationsRepo.find();
   }
+
+  getDestinationById(id: number): Promise<Destinations | null> {
+    return this.destinationsRepo.findOne({ where: { id } });
+  }
 }

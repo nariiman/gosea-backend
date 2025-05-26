@@ -8,6 +8,11 @@ import { CreateYachtBookingDto } from './dtos/request/create-yacht-booking.dto';
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 
+  @Get(':id')
+  getBookingById(@Param('id') id: number) {
+    return this.bookingsService.getBookingById(id);
+  }
+
   @Get('user/:uid')
   getUserBookings(@Param('uid') uid: string) {
     return this.bookingsService.getUserBookings(uid);
