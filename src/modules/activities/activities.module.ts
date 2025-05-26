@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActivitiesController } from './activities.controller';
 import { ActivitiesService } from './activities.service';
-import { Activity } from 'src/entities/Activity'; // make sure the path and casing are correct
+import { Activity } from '../../entities/Activity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Activity])],

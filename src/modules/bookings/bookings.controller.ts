@@ -1,28 +1,28 @@
-import {
-  Controller,
-  Post,
-  Get,
-  Body,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+// bookings.controller.ts
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateActivityBookingDto } from './dtos/request/create-activity-booking.dto';
+import { CreateYachtBookingDto } from './dtos/request/create-yacht-booking.dto';
 
 @Controller('bookings')
-@UseGuards(JwtAuthGuard)
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 
-  // Create booking
-  @Post()
-  async createBooking(@Request() req, @Body() body: any) {
-    return this.bookingsService.createBooking(req.user.id, body);
+  @Get('user/:uid')
+  getUserBookings(@Param('uid') uid: string) {
+    return this.bookingsService.getUserBookings(uid);
   }
 
-  // Get user's bookings
-  @Get('my')
-  async getMyBookings(@Request() req) {
-    return this.bookingsService.getClientBookings(req.user.id);
+  @Post('yacht')
+  async bookYacht(@Body() dto: CreateYachtBookingDto): Promise<{
+    message: string;
+    bookingId: number;
+  }> {
+    return this.bookingsService.bookYacht(dto);
+  }
+
+  @Post('activity')
+  async bookActivity(@Body() dto: CreateActivityBookingDto) {
+    return this.bookingsService.bookActivity(dto);
   }
 }

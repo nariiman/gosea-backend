@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Yacht } from 'src/entities/Yacht';
+import { Yacht } from '../../entities/Yacht';
 import { YachtsController } from './yachts.controller';
 import { YachtsService } from './yachts.service';
 

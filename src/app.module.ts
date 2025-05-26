@@ -17,7 +17,8 @@ import { TransportCompany } from './entities/TransportCompany';
 import { TransportRequest } from './entities/TransportRequest';
 import { VisaPayment } from './entities/VisaPayment';
 import { CashPayment } from './entities/CashPayment';
-import { Destinations } from './entities/Destinations'; // ✅ required for TypeOrmModule.forFeature in DestinationsController
+import { Destinations } from './entities/Destinations';
+import { BookingsModule } from './modules/bookings/bookings.module';
 
 @Module({
   imports: [
@@ -44,13 +45,14 @@ import { Destinations } from './entities/Destinations'; // ✅ required for Type
         TransportRequest,
         VisaPayment,
         CashPayment,
-        Destinations, // ✅ ensure entity is loaded
+        Destinations,
       ],
     }),
     DestinationsModule,
     ActivitiesModule,
     YachtsModule,
-    CateringModule, // ✅ added here
+    CateringModule,
+    BookingsModule,
   ],
 })
 export class AppModule {}

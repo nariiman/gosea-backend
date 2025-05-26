@@ -13,6 +13,7 @@ import { Yacht } from './Yacht';
 import { BookingActivities } from './BookingActivities';
 import { Feedback } from './Feedback';
 import { Invoice } from './Invoice';
+import { TransportRequest } from './TransportRequest';
 
 @Index('booking_pkey', ['id'], { unique: true })
 @Entity('booking', { schema: 'public' })
@@ -59,6 +60,9 @@ export class Booking {
   })
   bookingStatus: string | null;
 
+  @Column('integer', { name: 'transportation_request_id', nullable: true })
+  transportationRequestId: number | null;
+
   @Column('timestamp without time zone', {
     name: 'created_at',
     nullable: true,
@@ -101,4 +105,13 @@ export class Booking {
 
   @OneToMany(() => Invoice, (invoice) => invoice.booking)
   invoices: Invoice[];
+
+  @Column('uuid', { name: 'user_uid', nullable: true })
+  userUid: string | null;
+
+  @OneToMany(
+    () => TransportRequest,
+    (transportRequest) => transportRequest.booking,
+  )
+  transportRequests: TransportRequest[];
 }

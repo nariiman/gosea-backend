@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Activity } from 'src/entities/Activity';
+import { Activity } from '../../../entities/Activity';
 
 export async function seedActivities(dataSource: DataSource) {
   const repo = dataSource.getRepository(Activity);

@@ -1,4 +1,3 @@
-// src/modules/destinations/destinations.controller.ts
 import {
   Controller,
   Get,
@@ -8,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Destinations } from 'src/entities/Destinations';
+import { Destinations } from '../../entities/Destinations';
 
 @Controller('destinations')
 export class DestinationsController {

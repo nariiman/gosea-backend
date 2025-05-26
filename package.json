@@ -19,10 +19,11 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:generate": "npm run typeorm migration:generate -- -d typeorm.config.ts src/database/migrations/Init",
-    "migration:run": "npm run typeorm migration:run -- -d typeorm.config.ts",
+    "migration:generate:init": "npm run typeorm migration:generate -- -d typeorm.config.ts src/database/migrations/Init",
     "seed": "ts-node -r tsconfig-paths/register src/database/migrations/seeds/index.ts",
-    "migrate-and-seed": "npm run migration:run && npm run seed",
+    "init:db": "npm run migration:run && npm run seed",
+    "migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -d src/typeorm.config.ts",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/typeorm.config.ts",
     "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d typeorm.config.ts"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
     "bcrypt": "^5.1.1",
+    "class-validator": "^0.14.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.14.1",

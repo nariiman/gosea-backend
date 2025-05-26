@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Booking } from 'src/entities/Booking';
-import { TransportRequest } from 'src/entities/TransportRequest';
-import { BookingActivities } from 'src/entities/BookingActivities';
-import { Catering } from 'src/entities/Catering';
-import { Yacht } from 'src/entities/Yacht';
-import { ClientProfile } from 'src/entities/ClientProfile';
+import { Booking } from '../../entities/Booking';
+import { TransportRequest } from '../../entities/TransportRequest';
+import { BookingActivities } from '../../entities/BookingActivities';
+import { Catering } from '../../entities/Catering';
+import { Yacht } from '../../entities/Yacht';
+import { ClientProfile } from '../../entities/ClientProfile';
 
 import { BookingsService } from './bookings.service';
 import { BookingsController } from './bookings.controller';

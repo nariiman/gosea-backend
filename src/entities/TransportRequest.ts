@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TransportCompany } from './TransportCompany';
+import { Booking } from './Booking';
 
 @Index('transport_request_pkey', ['id'], { unique: true })
 @Entity('transport_request', { schema: 'public' })
@@ -56,4 +57,13 @@ export class TransportRequest {
   )
   @JoinColumn([{ name: 'company_id', referencedColumnName: 'id' }])
   company: TransportCompany;
+
+  @Column('integer', { name: 'booking_id', nullable: true })
+  bookingId: number | null;
+
+  @ManyToOne(() => Booking, (booking) => booking.transportRequests, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'booking_id', referencedColumnName: 'id' }])
+  booking: Booking;
 }

@@ -1,4 +1,4 @@
-import { Destinations } from 'src/entities/Destinations';
+import { Destinations } from '../../../entities/Destinations';
 import { DataSource } from 'typeorm';
 
 export async function seedDestinations(dataSource: DataSource) {

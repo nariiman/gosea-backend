@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Yacht } from 'src/entities/Yacht';
+import { Yacht } from '../../../entities/Yacht';
 
 export async function seedYachts(dataSource: DataSource) {
   const repo = dataSource.getRepository(Yacht);
