@@ -27,7 +27,8 @@ export class BookingsService {
       where: { id },
       relations: [
         'yacht',
-        'catering',
+        'bookingCateringMenus',
+        'bookingCateringMenus.catering',
         'bookingActivities',
         'transportRequests',
         'transportRequests.company',
